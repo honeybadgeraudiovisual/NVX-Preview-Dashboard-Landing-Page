@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NVX Preview Dashboard — Crestron NVX Diagnostics for AV Techs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #06060f;
+      --surface:   rgba(255,255,255,0.04);
+      --border:    rgba(255,255,255,0.08);
+      --blue:      #3b82f6;
+      --blue-glow: rgba(59,130,246,0.2);
+      --txt-1:     #eef2ff;
+      --txt-2:     #8b9bc8;
+      --txt-3:     #3d4a6b;
+      --green:     #22c55e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt-1);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: rgba(6,6,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); opacity: 1; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--txt-2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--txt-1); border-color: rgba(255,255,255,0.16); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 24px var(--blue-glow);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 160px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(59,130,246,0.3);
+      background: rgba(59,130,246,0.08);
+      font-size: 12px;
+      font-weight: 500;
+      color: #93c5fd;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 6px var(--blue);
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      max-width: 820px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--txt-2);
+      max-width: 560px;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ── VIDEO ── */
+    .video-section {
+      padding: 0 24px 100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 40px 120px rgba(0,0,0,0.7),
+        0 0 80px rgba(59,130,246,0.08);
+      cursor: pointer;
+    }
+
+    .video-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+    }
+
+    /* play overlay */
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(6,6,15,0.45);
+      transition: opacity 0.25s;
+      z-index: 2;
+    }
+    .video-play-btn.hidden { opacity: 0; pointer-events: none; }
+
+    .play-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(59,130,246,0.92);
+      box-shadow: 0 0 40px rgba(59,130,246,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .video-wrap:hover .play-circle {
+      transform: scale(1.08);
+      box-shadow: 0 0 60px rgba(59,130,246,0.7);
+    }
+
+    .play-circle svg { margin-left: 5px; }
+
+    /* pause overlay */
+    .video-pause-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .video-wrap:hover .video-pause-btn.visible { opacity: 1; }
+
+    .pause-circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(6,6,15,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* ── FEATURES ── */
+    .section {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--txt-2);
+      font-weight: 300;
+      max-width: 520px;
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .feature-card {
+      background: var(--bg);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: background 0.2s;
+    }
+    .feature-card:hover { background: rgba(255,255,255,0.025); }
+
+    .feature-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--txt-1);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--txt-2);
+      line-height: 1.65;
+    }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 80px;
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--txt-1);
+      letter-spacing: -0.03em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-num span { color: var(--blue); }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--txt-2);
+      margin-top: 6px;
+    }
+
+    /* ── PRICING ── */
+    .pricing-section {
+      padding: 100px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 64px;
+      text-align: left;
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .pricing-card:hover {
+      border-color: rgba(59,130,246,0.3);
+      box-shadow: 0 0 40px rgba(59,130,246,0.06);
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(59,130,246,0.4);
+      background: rgba(59,130,246,0.06);
+      box-shadow: 0 0 60px rgba(59,130,246,0.1);
+    }
+
+    .pricing-tag {
+      position: absolute;
+      top: -11px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 999px;
+    }
+
+    .pricing-tier {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+
+    .pricing-price {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--txt-1);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+      margin: 8px 0;
+    }
+    .pricing-price sub {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--txt-2);
+      vertical-align: baseline;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pricing-desc {
+      font-size: 14px;
+      color: var(--txt-2);
+      margin-bottom: 16px;
+    }
+
+    .pricing-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--txt-2);
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 120px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center, rgba(59,130,246,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.12;
+      max-width: 620px;
+      margin: 0 auto 20px;
+    }
+
+    .cta-section p {
+      color: var(--txt-2);
+      font-size: 17px;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo { height: 28px; width: auto; opacity: 0.6; }
+
+    footer p {
+      font-size: 13px;
+      color: var(--txt-3);
+    }
+
+    footer a { color: var(--txt-2); text-decoration: none; }
+    footer a:hover { color: var(--txt-1); }
+
+    /* foreground: badge, h1, p, buttons */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .hero { padding: 120px 20px 60px; }
+      .stats-row { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <img src="NVX Preview Dashboard logo design.png" alt="NVX Preview Dashboard" class="nav-logo" />
+    <div class="nav-actions">
+      <a href="#pricing" class="btn btn-ghost">Pricing</a>
+      <a href="#get-started" class="btn btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- Foreground content -->
+    <div class="hero-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Built for AV Professionals
+      </div>
+      <h1>All your NVX previews.<br><span>One unified view.</span></h1>
+      <p style="text-align:center;">Discover, monitor and route — all in one clean dashboard.<br>Experience the NVX Preview Dashboard.</p>
+      
+      <div class="hero-actions">
+        <a href="#get-started" class="btn btn-primary" style="font-size:15px; padding:12px 28px;">Start Free Trial</a>
+        <a href="#demo" class="btn btn-ghost" style="font-size:15px; padding:12px 28px;">Watch Demo</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section" id="demo">
+    <div class="video-wrap" id="videoWrap">
+      <video
+        id="demoVideo"
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="Nvx Preview Dashboard Promo.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Play button (shown when paused) -->
+      <div class="video-play-btn" id="playBtn">
+        <div class="play-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <polygon points="6,3 20,12 6,21"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Pause icon (shown on hover when playing) -->
+      <div class="video-pause-btn" id="pauseBtn">
+        <div class="pause-circle">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+            <rect x="5" y="4" width="4" height="16" rx="1"/>
+            <rect x="15" y="4" width="4" height="16" rx="1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <span class="section-label" style="display:block; text-align:center;">Features</span>
+    <h2 class="section-title" style="text-align:center;">All your endpoints at a glance.</h2>
+    <p class="section-sub" style="text-align:center; margin-left:auto; margin-right:auto;">No more clicking between dozens of tabs or hovering over icons. See exactly what's happening across your NVX network in real time in one window.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📡</div>
+        <h3>Live Stream Previews</h3>
+        <p>Pull and display actual video thumbnails from any NVX encoder on your network — no guessing what's transmitting.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔀</div>
+        <h3>Signal Route Visibility</h3>
+        <p>See exactly which encoder each decoder is subscribed to, and verify routes are correct at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Device Status</h3>
+        <p>Online, offline, streaming or idle — get the full picture of every device without digging through control systems.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Browser-Based</h3>
+        <p>Runs on any device on your network. No software to install — open it on a tablet, laptop, or site PC.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure License Keys</h3>
+        <p>License locked to your machine. Activate, transfer, or deactivate from your account at any time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛠</div>
+        <h3>Built by AV Techs</h3>
+        <p>Designed around real troubleshooting workflows — not a generic dashboard retrofitted for AV.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <span class="section-label">Pricing</span>
+    <h2 class="section-title">Simple, honest pricing.</h2>
+    <p style="color:var(--txt-2); font-size:17px; font-weight:300; max-width:440px; margin:0 auto;">Start free, scale when you're ready.</p>
+
+    <div class="pricing-grid">
+
+      <div class="pricing-card">
+        <div class="pricing-tier">Monthly</div>
+        <div class="pricing-price">$9<sub>/mo</sub></div>
+        <div class="pricing-desc">Try it out month to month, cancel anytime.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>1 machine license</li>
+          <li>Full preview &amp; diagnostics</li>
+          <li>14-day free trial</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#get-started" class="btn btn-ghost" style="width:100%; justify-content:center;">Start Free Trial</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-tag">Best Value</div>
+        <div class="pricing-tier">Yearly</div>
+        <div class="pricing-price">$99<sub>/yr</sub></div>
+        <div class="pricing-desc">Save 17% with an annual plan.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>1 machine license</li>
+          <li>Full preview &amp; diagnostics</li>
+          <li>1 year of updates</li>
+          <li>Priority email support</li>
+        </ul>
+        <a href="#get-started" class="btn btn-primary" style="width:100%; justify-content:center;" id="get-started">Buy Annual</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-price">$499<sub>/yr</sub></div>
+        <div class="pricing-desc">For integration firms running multiple sites.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>10 machine licenses</li>
+          <li>Full preview &amp; diagnostics</li>
+          <li>Centralized license portal</li>
+          <li>1 year of updates</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#get-started" class="btn btn-ghost" style="width:100%; justify-content:center;">Buy Enterprise</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Stop guessing.<br>Start seeing.</h2>
+    <p>Get your NVX system under control in minutes.</p>
+    <a href="#get-started" class="btn btn-primary" style="font-size:15px; padding:12px 32px;">Try Free for 14 Days</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <img src="NVX Preview Dashboard logo design.png" alt="NVX Preview Dashboard" class="footer-logo" />
+    <p>&copy; 2026 NVX Preview Dashboard. All rights reserved.</p>
+    <p><a href="#">Privacy</a> &nbsp;&middot;&nbsp; <a href="#">Terms</a> &nbsp;&middot;&nbsp; <a href="mailto:support@nvxdashboard.com">Support</a></p>
+  </footer>
+
+  <script>
+    // ── VIDEO CONTROLS ──
+    (function () {
+      const wrap     = document.getElementById('videoWrap');
+      const video    = document.getElementById('demoVideo');
+      const playBtn  = document.getElementById('playBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      if (!wrap || !video) return;
+
+      function setPlaying(playing) {
+        if (playing) {
+          playBtn.classList.add('hidden');
+          pauseBtn.classList.add('visible');
+        } else {
+          playBtn.classList.remove('hidden');
+          pauseBtn.classList.remove('visible');
+        }
+      }
+
+      wrap.addEventListener('click', function () {
+        if (video.paused) {
+          video.play();
+          setPlaying(true);
+        } else {
+          video.pause();
+          setPlaying(false);
+        }
+      });
+
+      video.addEventListener('ended', function () { setPlaying(false); });
+      video.addEventListener('pause', function () { setPlaying(false); });
+      video.addEventListener('play',  function () { setPlaying(true);  });
+    })();
+
+  </script>
+
+</body>
+</html>
