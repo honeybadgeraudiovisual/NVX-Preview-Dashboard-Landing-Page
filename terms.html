@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — NVX Preview Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f7f4ef;
+      --bg-2:     #f2ede6;
+      --border:   #ddd7cc;
+      --border-hi:#c9c1b4;
+      --rust:     #c2501f;
+      --txt-1:    #1a1714;
+      --txt-2:    #6b6259;
+      --txt-3:    #a89d92;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt-1);
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(247,244,239,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo { height: 34px; width: auto; display: block; }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--txt-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--txt-1); }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+
+    .page-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .page-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--txt-1);
+      margin-bottom: 12px;
+    }
+
+    .page-meta {
+      font-size: 13px;
+      color: var(--txt-3);
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--txt-1);
+      margin: 48px 0 12px;
+    }
+
+    p {
+      color: var(--txt-2);
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    ul li {
+      font-size: 15px;
+      color: var(--txt-2);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--rust);
+    }
+
+    a { color: var(--rust); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--bg-2);
+    }
+
+    .footer-logo { height: 26px; width: auto; opacity: 0.45; }
+    footer p { font-size: 13px; color: var(--txt-3); }
+    footer a { color: var(--txt-2); text-decoration: none; }
+    footer a:hover { color: var(--txt-1); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <img src="NVX Preview Dashboard logo design.png" alt="NVX Preview Dashboard" class="nav-logo" />
+    <a href="index.html" class="back-link">← Back to site</a>
+  </nav>
+
+  <div class="page">
+
+    <span class="page-label">Legal</span>
+    <h1 class="page-title">Terms of Service</h1>
+    <p class="page-meta">Honeybadger Audio Visual &nbsp;·&nbsp; Last updated: April 13, 2026</p>
+
+    <h2>1. Agreement</h2>
+    <p>By purchasing, downloading, or using NVX Preview Dashboard ("the Software"), you agree to these Terms of Service. If you do not agree, do not use the Software. These terms form a legally binding agreement between you and <strong>Honeybadger Audio Visual</strong>, Canada.</p>
+
+    <h2>2. License Grant</h2>
+    <p>When you purchase a license, we grant you a non-exclusive, non-transferable, limited license to install and use the Software on the number of machines permitted by your plan:</p>
+    <ul>
+      <li><strong>Monthly / Yearly</strong> — 1 machine</li>
+      <li><strong>Enterprise</strong> — up to 10 machines</li>
+    </ul>
+    <p>This license is for your own internal business use only. You may deactivate a machine and transfer the license to a different machine at any time through your account.</p>
+
+    <h2>3. Restrictions</h2>
+    <p>You may not:</p>
+    <ul>
+      <li>Copy, modify, or distribute the Software or any part of it</li>
+      <li>Reverse engineer, decompile, or disassemble the Software</li>
+      <li>Sublicense, sell, rent, or lease the Software to any third party</li>
+      <li>Use the Software on more machines than your license permits</li>
+      <li>Remove or alter any licensing, copyright, or proprietary notices</li>
+      <li>Use the Software for any unlawful purpose</li>
+    </ul>
+
+    <h2>4. Free Trial</h2>
+    <p>Monthly plans include a 14-day free trial. No payment is taken until the trial period ends. You may cancel at any time before the trial ends without being charged. Trials are limited to one per person or organisation.</p>
+
+    <h2>5. Payments and Renewals</h2>
+    <p>Monthly and yearly plans renew automatically at the end of each billing period. You will be charged using the payment method provided at checkout, processed by Paddle. You can cancel your subscription at any time from your account — access continues until the end of the current billing period. Enterprise licenses are billed annually and do not auto-renew without confirmation.</p>
+
+    <h2>6. Refunds</h2>
+    <p>We consider refund requests on a case-by-case basis. If you are experiencing an issue with the Software, please contact us first at <a href="mailto:support@nvxpreviewdashboard.com">support@nvxpreviewdashboard.com</a> and we will do our best to resolve it. To request a refund, email us with your order details and reason. We aim to respond within 3 business days.</p>
+
+    <h2>7. Updates and Support</h2>
+    <p>Active license holders receive software updates for the duration of their subscription. Support is provided by email at <a href="mailto:support@nvxpreviewdashboard.com">support@nvxpreviewdashboard.com</a>. We do not guarantee response times but aim to reply within 2 business days.</p>
+
+    <h2>8. Intellectual Property</h2>
+    <p>The Software's original source code, user interface, design, and documentation are the intellectual property of Honeybadger Audio Visual and are protected by Canadian and international copyright law. These terms do not transfer any ownership rights to you.</p>
+    <p>NVX Preview Dashboard communicates with Crestron NVX devices over the local network using standard, unencrypted network protocols. Crestron® and NVX® are registered trademarks of Crestron Electronics, Inc. Honeybadger Audio Visual is not affiliated with, endorsed by, or in any way officially connected to Crestron Electronics, Inc. Use of Crestron product names is for descriptive purposes only.</p>
+
+    <h2>9. Disclaimer of Warranties</h2>
+    <p>The Software is provided "as is" without warranties of any kind, either express or implied. We do not warrant that the Software will be error-free, uninterrupted, or suitable for any particular purpose. Use of the Software is at your own risk.</p>
+
+    <h2>10. Limitation of Liability</h2>
+    <p>To the maximum extent permitted by applicable law, Honeybadger Audio Visual shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of or inability to use the Software, even if we have been advised of the possibility of such damages. Our total liability to you shall not exceed the amount you paid for your current license period.</p>
+
+    <h2>11. Termination</h2>
+    <p>We reserve the right to suspend or terminate your license if you breach these terms. Upon termination, you must cease all use of the Software and destroy any copies in your possession. Sections 8, 9, 10, and 12 survive termination.</p>
+
+    <h2>12. Governing Law</h2>
+    <p>These terms are governed by the laws of Canada and the province in which Honeybadger Audio Visual operates. Any disputes shall be resolved in the applicable Canadian courts.</p>
+
+    <h2>13. Changes to These Terms</h2>
+    <p>We may update these terms from time to time. We will update the date at the top of this page when we do. Continued use of the Software after changes are posted constitutes your acceptance of the updated terms.</p>
+
+    <h2>14. Contact</h2>
+    <p>For any questions about these terms, contact us at:<br>
+    <a href="mailto:support@nvxpreviewdashboard.com">support@nvxpreviewdashboard.com</a><br>
+    Honeybadger Audio Visual, Canada</p>
+
+  </div>
+
+  <footer>
+    <img src="NVX Preview Dashboard logo design.png" alt="NVX Preview Dashboard" class="footer-logo" />
+    <p>&copy; 2026 NVX Preview Dashboard. All rights reserved.</p>
+    <p style="font-size:12px; color:var(--txt-3); width:100%;">Not affiliated with or endorsed by Crestron Electronics, Inc. DM NVX® is a registered trademark of Crestron Electronics, Inc.</p>
+    <p><a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="terms.html">Terms</a> &nbsp;&middot;&nbsp; <a href="mailto:support@nvxpreviewdashboard.com">Support</a></p>
+  </footer>
+
+</body>
+</html>
