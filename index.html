@@ -689,7 +689,7 @@
   <nav>
     <img src="NVX Preview Dashboard logo design.png" alt="NVX Preview Dashboard" class="nav-logo" />
     <div class="nav-actions">
-      <button class="btn btn-primary" onclick="document.getElementById('accessModal').classList.add('open')">Get Access</button>
+      <a href="https://github.com/honeybadgeraudiovisual/NVX-Preview-Dashboard-Landing-Page/releases/download/v2.2.0/NVXPreviewDashboard.exe" class="btn btn-primary" id="nav-download-btn">Download Free Trial</a>
     </div>
   </nav>
 
@@ -703,7 +703,7 @@
       <h1>All your NVX previews.<br><em>One unified view.</em></h1>
       <p>Discover, monitor and route Crestron DM NVX® — all in one clean dashboard.</p>
       <div class="hero-actions">
-        <button class="btn btn-primary" style="font-size:15px; padding:12px 28px;" onclick="document.getElementById('accessModal').classList.add('open')">Get Access</button>
+        <a href="https://github.com/honeybadgeraudiovisual/NVX-Preview-Dashboard-Landing-Page/releases/download/v2.2.0/NVXPreviewDashboard.exe" class="btn btn-primary" style="font-size:15px; padding:12px 28px;" id="hero-download-btn">Download Free Trial</a>
         <a href="#demo" class="btn btn-ghost" style="font-size:15px; padding:12px 28px;">Watch Demo</a>
       </div>
     </div>
@@ -851,7 +851,7 @@
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer">
-          <p>During our early access period, we offer a free 30-day trial to AV professionals on request. Submit your details using the Get Access form and we'll follow up with your trial licence. No credit card is required. Once we launch publicly, monthly plans will include a 14-day free trial.</p>
+          <p>Download the app and launch it — your 14-day free trial starts automatically on first run. No sign-up or credit card required. When the trial ends, a prompt inside the app will guide you to the purchase page.</p>
         </div>
       </div>
 
@@ -861,7 +861,7 @@
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer">
-          <p>Right now we're offering free 30-day trials on request. Once we launch publicly, licences will be available for individual machines as well as multi-seat team plans. Request access above to get started.</p>
+          <p>Each licence is tied to one machine. If you need to move to a different PC, you can deactivate and reactivate your licence from within the app. Multi-seat team plans are on the roadmap — email us if that's something you need.</p>
         </div>
       </div>
 
@@ -888,44 +888,14 @@
     </div>
   </section>
 
-  <!-- ACCESS -->
+  <!-- DOWNLOAD CTA -->
   <section class="cta-section" id="get-started">
-    <span class="section-label" style="display:block; margin-bottom:16px;">Early Access</span>
-    <h2>Want to try it?</h2>
-    <p>We're offering a free 30-day trial to AV professionals we trust.<br>Drop your details and we'll be in touch.</p>
-    <button class="btn btn-primary" style="font-size:15px; padding:12px 32px;" onclick="document.getElementById('accessModal').classList.add('open')">Get Access</button>
+    <span class="section-label" style="display:block; margin-bottom:16px;">Free Trial</span>
+    <h2>Ready to try it?</h2>
+    <p>Download NVX Preview Dashboard and start your 14-day free trial instantly.<br>No sign-up. No credit card.</p>
+    <a href="https://github.com/honeybadgeraudiovisual/NVX-Preview-Dashboard-Landing-Page/releases/download/v2.2.0/NVXPreviewDashboard.exe" class="btn btn-primary" style="font-size:15px; padding:12px 32px;" id="cta-download-btn">Download Free Trial</a>
   </section>
 
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="accessModal">
-    <div class="modal">
-      <button class="modal-close" onclick="document.getElementById('accessModal').classList.remove('open')" aria-label="Close">&times;</button>
-      <span class="section-label" style="display:block; margin-bottom:12px;">Free 30-Day Trial</span>
-      <h3 class="modal-title">Request Access</h3>
-      <p class="modal-sub">Fill in your details and we'll reach out with your trial link.</p>
-
-      <form id="accessForm">
-        <div class="form-group">
-          <label for="fname">Your Name</label>
-          <input type="text" id="fname" name="name" placeholder="John Smith" required />
-        </div>
-        <div class="form-group">
-          <label for="femail">Email Address</label>
-          <input type="email" id="femail" name="email" placeholder="john@company.com" required />
-        </div>
-        <div class="form-group">
-          <label for="fcompany">Company</label>
-          <input type="text" id="fcompany" name="company" placeholder="AV Integrations Ltd." required />
-        </div>
-        <button type="submit" data-fs-submit-btn class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px; font-size:15px; padding:12px;">Send Request</button>
-      </form>
-
-      <div class="form-success" id="formSuccess">
-        <div class="success-icon">✓</div>
-        <p><strong>Request received!</strong><br>We'll be in touch within a day or two.</p>
-      </div>
-    </div>
-  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -945,35 +915,6 @@
         if (!isOpen) item.classList.add('open');
       });
     });
-
-    // ── MODAL ──
-    (function () {
-      const backdrop = document.getElementById('accessModal');
-
-      // close on backdrop click
-      backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) backdrop.classList.remove('open');
-      });
-
-      // close on Escape
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') backdrop.classList.remove('open');
-      });
-
-      // show success state when Formspree SDK marks submission done
-      const observer = new MutationObserver(function () {
-        const successEl = document.querySelector('[data-fs-success]');
-        if (successEl && successEl.style.display !== 'none' && successEl.textContent.trim()) {
-          document.getElementById('accessForm').style.display = 'none';
-          document.getElementById('formSuccess').classList.add('visible');
-        }
-      });
-      observer.observe(document.getElementById('accessModal'), { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-    })();
-
-    // ── FORMSPREE AJAX SDK ──
-    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-    formspree('initForm', { formElement: '#accessForm', formId: 'mkoknekv' });
 
     // ── VIDEO CONTROLS ──
     (function () {
@@ -1002,7 +943,5 @@
       video.addEventListener('play',  function () { setPlaying(true);  });
     })();
   </script>
-
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
